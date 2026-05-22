@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "db",
+    "http-backend",
+    "Validation",
+    "ws-backend"
+  ],
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@types/ws": "^8.18.1",
+    "axios": "^1.16.1",
+    "http-backend": "*",
+    "ws": "^8.20.0"
+  }
+}

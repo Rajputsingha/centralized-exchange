@@ -1,0 +1,22 @@
+{
+  "name": "validation",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "types": "./index.ts",
+  "exports": {
+    ".": {
+      "types": "./index.ts",
+      "default": "./index.ts"
+    }
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  }
+}

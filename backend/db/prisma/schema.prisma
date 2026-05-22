@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+ 
+}
+
+model User {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  email        String   @unique
+  passwordHash String
+  usd          Decimal  @default(0) @db.Decimal(18, 8)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  orders       Order[]
+  fills        Fill[]
+}
+
+model Order {
+  id        String      @id @default(uuid())
+  userId    String
+  market    String
+  price     Decimal     @db.Decimal(18, 8)
+  qty       Decimal     @db.Decimal(18, 8)
+  filledQty Decimal     @default(0) @db.Decimal(18, 8)
+  type      OrderType
+  side      OrderSide
+  status    OrderStatus @default(OPEN)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  user      User        @relation(fields: [userId], references: [id])
+  fills     Fill[]
+}
+
+model Stock {
+  id        String   @id @default(uuid())
+  name      String
+  symbol    String   @unique
+  createdAt DateTime @default(now())
+}
+
+model Fill {
+  id        String    @id @default(uuid())
+  orderId   String
+  userId    String
+  market    String
+  price     Decimal   @db.Decimal(18, 8)
+  qty       Decimal   @db.Decimal(18, 8)
+  side      OrderSide
+  asset     String
+  createdAt DateTime  @default(now())
+
+  order     Order     @relation(fields: [orderId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
+}
+
+enum OrderType {
+  LIMIT
+  MARKET
+}
+
+enum OrderSide {
+  BUY
+  SELL
+}
+
+enum OrderStatus {
+  OPEN
+  PARTIALLY_FILLED
+  FILLED
+  CANCELLED
+}
+
+

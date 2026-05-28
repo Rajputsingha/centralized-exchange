@@ -3,6 +3,10 @@ import express from "express";
 import "dotenv/config";
 import cors from "cors";
 
+console.log("OPENROUTER:", process.env.PINECONE_API_KEY);
+console.log("COHERE:", process.env.COHERE_API_KEY);
+console.log("PINECONE:", process.env.OPENROUTER_API_KEY);
+
 const app = express();
 
 app.use(
@@ -27,9 +31,11 @@ import { authrouter } from "./routes/authroute";
 import { orderBookrouter } from "./routes/orderBook";
 import { connectRedis } from "./config/redis";
 import { tradeRouter } from "./routes/tradeRoutes";
+import { aiRouter } from "./routes/aiRoutes";
 app.use("/api/auth", authrouter);
 app.use("/api", orderBookrouter);
 app.use("/api",tradeRouter);
+app.use("/api",aiRouter);
 
 await connectRedis()
 
